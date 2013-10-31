@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='ceilometer-riemann',
-    version='0.1.0-dev',
+    version='0.1.1-dev',
     author='Brian Cline',
     author_email='bcline@softlayer.com',
     description=('Riemann publisher driver for OpenStack Ceilometer'),
