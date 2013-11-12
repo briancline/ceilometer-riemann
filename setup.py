@@ -3,16 +3,22 @@ from setuptools import setup
 
 setup(
     name='ceilometer-riemann',
-    version='0.1.1-dev',
+    version='0.1.4-dev',
     author='Brian Cline',
     author_email='bcline@softlayer.com',
     description=('Riemann publisher driver for OpenStack Ceilometer'),
+    long_description=open('README.md').read(),
     license='Apache License v2.0',
     keywords='ceilometer riemann metrics instrumentation '
-             'stats log text processing',
-    url='http://packages.python.org/ceilometer-riemann',
-    packages=['ceilometer-riemann', 'tests'],
-    long_description=open('README.md').read(),
+             'stats log processing',
+    url='https://github.com/briancline/ceilometer-riemann',
+    packages=['ceilometer.publisher.riemann', 'tests'],
+    install_requires=['bernhard'],
+    entry_points={
+        'ceilometer.publisher': [
+            'riemann = ceilometer.publisher.riemann:RiemannPublisher'
+        ]
+    },
     classifiers=[
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: Apache Software License',
