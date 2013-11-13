@@ -121,16 +121,17 @@ class RiemannPublisher(publisher.PublisherBase):
             try:
                 host = 'openstack'
                 ttl = cfg.CONF.publisher_riemann.default_ttl
+                attributes = []
 
                 if sample.resource_metadata:
                     host = sample.resource_metadata.get('host', host)
                     ttl = sample.resource_metadata.get('ttl', ttl)
+                    attributes = {k: v for k, v in sample.resource_metadata
+                                  if k not in ignore_metadata_keys}
 
                 state = 'ok'  # TODO: sample data that can be used for this?
                 description = ''  # TODO
                 tags = []  # TODO
-                attributes = {k: v for k, v in sample.resource_metadata
-                              if k not in ignore_metadata_keys}
 
                 event = {'time': time.time(),
                          'ttl': ttl,
