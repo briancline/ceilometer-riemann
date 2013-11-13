@@ -119,9 +119,12 @@ class RiemannPublisher(publisher.PublisherBase):
                                                 'host': self.host,
                                                 'port': self.port})
             try:
-                host = sample.resource_metadata.get('host', 'openstack')
-                ttl = sample.resource_metadata.get(
-                    'ttl', cfg.CONF.publisher_riemann.default_ttl)
+                host = 'openstack'
+                ttl = cfg.CONF.publisher_riemann.default_ttl
+
+                if sample.resource_metadata:
+                    host = sample.resource_metadata.get('host', host)
+                    ttl = sample.resource_metadata.get('ttl', ttl)
 
                 state = 'ok'  # TODO: sample data that can be used for this?
                 description = ''  # TODO
