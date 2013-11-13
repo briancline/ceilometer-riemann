@@ -31,7 +31,7 @@ from oslo.config import cfg
 LOG = log.getLogger(__name__)
 
 METER_PUBLISH_OPTS = [
-    cfg.StrOpt('port',
+    cfg.IntOpt('port',
                default=5555,
                help='The default port on which Riemann listens',
                ),
@@ -40,12 +40,20 @@ METER_PUBLISH_OPTS = [
                help='The default transport over which events should be sent '
                     'to a Riemann server (tcp or udp)',
                ),
-    cfg.StrOpt('default_ttl',
+    cfg.IntOpt('default_ttl',
                default=86400,
                help='The default amount of time in seconds that events sent '
                     'to Riemann are retained in its index. Any event that '
                     'passes through Ceilometer with a metadata attribute '
-                    'of "ttl" will override this value.')
+                    'of "ttl" will override this value.'),
+    cfg.StrOpt('default_host',
+               default='openstack',
+               help='The host value used when no other host value is '
+                    'determined, such as from sample resource_metadata.'),
+    cfg.StrOpt('default_state',
+               default='ok',
+               help='The state value used when no other state value is '
+                    'determined, such as from sample resource_metadata.'),
 ]
 
 
@@ -123,10 +131,11 @@ class RiemannPublisher(publisher.PublisherBase):
                                                 'host': self.host,
                                                 'port': self.port})
             try:
-                host = 'openstack'  # TODO: make this configurable
+                host = cfg.CONF.publisher_riemann.default_host
                 ttl = cfg.CONF.publisher_riemann.default_ttl
+                # TODO: any sample data that can be used for state?
+                state = cfg.CONF.publisher_riemann.default_state
                 attributes = {}
-                state = 'ok'  # TODO: sample data that can be used for this?
                 description = ''  # TODO
                 tags = []  # TODO
 
