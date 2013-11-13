@@ -121,7 +121,7 @@ class RiemannPublisher(publisher.PublisherBase):
             try:
                 host = 'openstack'
                 ttl = cfg.CONF.publisher_riemann.default_ttl
-                attributes = []
+                attributes = {}
 
                 if sample.resource_metadata:
                     host = sample.resource_metadata.get('host', host)
