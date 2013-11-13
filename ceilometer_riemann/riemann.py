@@ -84,6 +84,9 @@ class RiemannPublisher(publisher.PublisherBase):
 
         self.transport = options.get('transport',
                                      cfg.CONF.publisher_riemann.transport)
+        if not isinstance(self.transport, basestring):
+            self.transport = self.transport.pop()
+
         transport_class = transport_class_from_str(self.transport)
 
         self.host, self.port = network_utils.parse_host_port(
