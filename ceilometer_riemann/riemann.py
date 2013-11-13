@@ -106,6 +106,10 @@ class RiemannPublisher(publisher.PublisherBase):
         # TODO: move attributes construction to helper method
         ignore_metadata_keys = ['host', 'ttl']
 
+        # Use context arg to squash code smell warnings; remove this
+        # if the context is ever needed
+        del context
+
         try:
             if not self.client.connection:
                 self.client.connect()
