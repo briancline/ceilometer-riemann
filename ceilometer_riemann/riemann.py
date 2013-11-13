@@ -133,7 +133,7 @@ class RiemannPublisher(publisher.PublisherBase):
                 description = ''  # TODO
                 tags = []  # TODO
 
-                event = {'time': time.time(),
+                event = {'time': int(time.time()),
                          'ttl': ttl,
                          'host': host,
                          'service': sample.name,
